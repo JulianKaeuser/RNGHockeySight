@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Element Changer</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        #randomElement {
+            font-size: 100px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .slider-container {
+            position: absolute;
+            bottom: 50px;
+            text-align: center;
+        }
+
+        #sliderLabel {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        #intervalSlider {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="randomElement">0</div>
+
+    <div class="slider-container">
+        <div id="sliderLabel">Change interval: 1000 ms</div>
+        <input type="range" min="500" max="5000" value="1000" id="intervalSlider">
+    </div>
+
+    <script>
+        // List of elements
+        const elements = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "S"];
+
+        // Get references to the HTML elements
+        const randomElementDiv = document.getElementById("randomElement");
+        const intervalSlider = document.getElementById("intervalSlider");
+        const sliderLabel = document.getElementById("sliderLabel");
+
+        // Function to get a random element from the list
+        function getRandomElement() {
+            const randomIndex = Math.floor(Math.random() * elements.length);
+            return elements[randomIndex];
+        }
+
+        // Function to update the displayed element
+        function updateRandomElement() {
+            randomElementDiv.textContent = getRandomElement();
+        }
+
+        // Set the initial interval
+        let interval = 1000;
+        let intervalId = setInterval(updateRandomElement, interval);
+
+        // Update the interval when the slider is changed
+        intervalSlider.addEventListener("input", function () {
+            interval = intervalSlider.value;
+            sliderLabel.textContent = `Change interval: ${interval} ms`;
+
+            // Clear the old interval and set a new one
+            clearInterval(intervalId);
+            intervalId = setInterval(updateRandomElement, interval);
+        });
+    </script>
+
+</body>
+</html>
